@@ -1,0 +1,90 @@
+create database schema_akademik;
+
+use schema_akademik;
+
+create table fakultas(
+	id_fakultas smallint,
+	fakultas varchar(45),
+	primary key (id_fakultas)
+);
+	
+create table jurusan(
+	id_jurusan smallint,
+	id_fakultas smallint,
+	jurusan varchar(45),
+	primary key(id_jurusan),
+	foreign key (id_fakultas) references fakultas(id_fakultas)
+);
+
+create table strata(
+	id_strata smallint,
+	singkat varchar(10),
+	strata varchar(45),
+	primary key (id_strata)
+);
+
+create table program_studi(
+	id_program_studi smallint,
+	id_strata smallint,
+	id_jurusan smallint,
+	program_studi varchar(60),
+	primary key (id_program_studi),
+	foreign key(id_strata) references strata(id_strata),
+	foreign key(id_jurusan) references jurusan(id_jurusan)
+);
+
+create table seleksi_masuk(
+	id_seleksi_masuk smallint,
+	singkat varchar(12),
+	seleksi_masuk varchar(45),
+	primary key (id_seleksi_masuk)
+);
+
+create table mahasiswa(
+	nim varchar(15),
+	id_seleksi_masuk smallint,
+	id_program_studi smallint,
+	nama varchar(45),
+	angkatan smallint,
+	tgl_lahir date,
+	kota_lahir varchar(60),
+	jenis_kelamin char(1),
+	primary key (nim),
+	foreign key (id_seleksi_masuk) references seleksi_masuk(id_seleksi_masuk),
+	foreign key (id_program_studi) references program_studi(id_program_studi)
+);
+
+insert into fakultas values
+(1,'Perikanan dan Ilmu Kelautan'),
+(2,'Ilmu Komputer');
+
+insert into jurusan values
+(21,2,'informatika'),
+(22,2,'sistem informasi'),
+(23,2,'teknik komputer');
+
+insert into strata values 
+(1,'D1','Diploma'),
+(2,'S1','Sarjana'),
+(3,'S2','Magister');
+
+insert into program_studi values
+(211,2,21,'teknik informatika'),
+(212,2,21, 'teknik komputer'),
+(219,3,21,'magister ilmu komputer');
+
+insert into seleksi_masuk values
+(1,'SNMPTN','SELEKSI NASIONAL MAHASISWA PTN'),
+(2, 'SBMPTN', 'SELEKSI BERSAMA MAHASISWA PTN');
+
+insert into mahasiswa values
+('155150400',1,211,'Johnny',2015,'1997-1-1','Surabaya','W'),
+('155150401',2,212,'Jaehyun',2015,'1997-10-2','Malang','P');
+
+update mahasiswa set nama = 'Johnny' where nama = 'Suh';
+
+select * from mahasiswa;
+
+update mahasiswa set nama = 'Jung' where nama ='Jaehyun';
+
+select * from mahasiswa ;
